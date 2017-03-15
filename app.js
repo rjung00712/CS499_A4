@@ -38,11 +38,14 @@ function fetchWaitingtimes() {
                 for(var i = 0; i < items.length; i++) {
                     var str = JSON.stringify((items[i].description[0]));
 
+
+                    console.log(str.substr(1, str.indexOf(' ')));
+
                     if(str.indexOf("min") > -1) {
                         waitTimes.push({
                             'ride': items[i].title[0],
-                            'wait_time': items[i].description[0],
-                            'time': Date.now()
+                            'wait_time': str.substr(1, str.indexOf(' ')),  
+                            'timestamp': Date.now()
                         });
                     }
                 }
@@ -50,7 +53,6 @@ function fetchWaitingtimes() {
             console.log(waitTimes);
 
             sendToElasticSearch(waitTimes);
-
         } else {
             console.log(err);
         }
@@ -82,5 +84,3 @@ function setTimeInterval() {
 };
 
 setTimeInterval();
-
-
